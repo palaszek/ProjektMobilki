@@ -3,6 +3,8 @@
     <style name="Base.Theme.MusicPlayer" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="colorPrimary">#E91E63</item>
+        <item name="colorBackgroundFloating">#E91E63</item>
     </style>
 
     <style name="Theme.MusicPlayer" parent="Base.Theme.MusicPlayer" />

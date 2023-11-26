@@ -71,7 +71,13 @@ public class MainActivity extends AppCompatActivity {
         }else {
             ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.READ_MEDIA_AUDIO}, 123);
         }
+    }
 
-
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(recyclerView!=null){
+            recyclerView.setAdapter(new MusicListAdapter(songsList, getApplicationContext()));
+        }
     }
 }
