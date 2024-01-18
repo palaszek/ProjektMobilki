@@ -1,17 +1,17 @@
 
 l
-java:S1659"JDeclare "currentTimeTv" and all following declarations on a separate line.(á‘Èíüÿÿÿÿ8Å¤áÀ1
+java:S1659"JDeclare "currentTimeTv" and all following declarations on a separate line.(á‘Èíüÿÿÿÿ8Ğë­…Å1
 f
-java:S1659"DDeclare "nextBtn" and all following declarations on a separate line.(İÌ–ûÿÿÿÿ8Å¤áÀ1
+java:S1659"DDeclare "nextBtn" and all following declarations on a separate line.(İÌ–ûÿÿÿÿ8Ñë­…Å1
 ^
-java:S1874*"<Remove this use of "getSerializableExtra"; it is deprecated.(ô³ºôıÿÿÿÿ8Å¤áÀ1
+java:S1874*"<Remove this use of "getSerializableExtra"; it is deprecated.(ô³ºôıÿÿÿÿ8©¦¯éÑ1
 K
-java:S1874>"/Remove this use of "Handler"; it is deprecated.(ìÿÆ8¢Å¤áÀ1
+java:S1874>"/Remove this use of "Handler"; it is deprecated.(ìÿÆ8›ì­…Å1
 £
-java:S1186L"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(ñ®çâùÿÿÿÿ8£Å¤áÀ1
+java:S1186L"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(ñ®çâùÿÿÿÿ8ì­…Å1
 
-java:S1186Q"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(‰ÁÕ–8£Å¤áÀ1
+java:S1186Q"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(‰ÁÕ–8Ÿì­…Å1
 X
-java:S2696v"6Make the enclosing method "static" or remove this set.(ÁÄĞÆüÿÿÿÿ8°Å¤áÀ1
+java:S2696v"6Make the enclosing method "static" or remove this set.(ÁÄĞÆüÿÿÿÿ8Øì­…Å1
 S
-java:S2696"6Make the enclosing method "static" or remove this set.(ú’¾Ú8±Å¤áÀ1
+java:S2696"6Make the enclosing method "static" or remove this set.(ú’¾Ú8İì­…Å1

@@ -2,8 +2,14 @@ package com.example.musicplayer;
 
 import java.io.Serial;
 import java.io.Serializable;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
 
+@Entity(tableName = "audios")
 public class AudioModel implements Serializable {
+
+    @PrimaryKey(autoGenerate = true)
+            public int id;
     String path;
     String title;
     String duration;
@@ -14,6 +20,8 @@ public class AudioModel implements Serializable {
         this.duration = duration;
     }
 
+    public int getId() {return id;}
+    public void setId(int id){this.id = id;}
     public String getPath() {
         return path;
     }
