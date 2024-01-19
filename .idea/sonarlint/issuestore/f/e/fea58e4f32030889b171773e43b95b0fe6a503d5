@@ -1,23 +1,37 @@
 
 i
-java:S1192N"GDefine a constant instead of duplicating this literal "letsee" 7 times.(ş¬¦Íıÿÿÿÿ8—¡óñÑ1
-J
-java:S1604U"(Make this anonymous inner class a lambda(á†áıÿÿÿÿ8˜¡óñÑ1
-J
-java:S1604z"(Make this anonymous inner class a lambda(‘’¢ãûÿÿÿÿ8˜¡óñÑ1
+java:S1192N"GDefine a constant instead of duplicating this literal "letsee" 7 times.(ş¬¦Íıÿÿÿÿ8¯«’˜Ò1
 E
-java:S1604¿"(Make this anonymous inner class a lambda(ç’ƒL8˜¡óñÑ1
+java:S1604X"(Make this anonymous inner class a lambda(ã­Ûº8¯«’˜Ò1
+J
+java:S1604f"(Make this anonymous inner class a lambda(ÁáµÄıÿÿÿÿ8¯«’˜Ò1
+E
+java:S1604 "(Make this anonymous inner class a lambda(ç’ƒL8¯«’˜Ò1
 K
-java:S1604°"(Make this anonymous inner class a lambda(á†áıÿÿÿÿ8˜¡óñÑ1
+java:S1604‘"(Make this anonymous inner class a lambda(á†áıÿÿÿÿ8¯«’˜Ò1
+F
+java:S1604®"(Make this anonymous inner class a lambda(°ı‰8°«’˜Ò1
+K
+java:S1604Á"(Make this anonymous inner class a lambda(á†áıÿÿÿÿ8°«’˜Ò1
+X
+java:S1874/"6Remove this use of "ProgressDialog"; it is deprecated.(·á…Çùÿÿÿÿ8¬’˜Ò1
 p
-java:S3252C"NUse static access with "android.provider.MediaStore$MediaColumns" for "TITLE".(ÃÌ¯Ïÿÿÿÿÿ8ä¡óñÑ1
+java:S3252C"NUse static access with "android.provider.MediaStore$MediaColumns" for "TITLE".(ÃÌ¯Ïÿÿÿÿÿ8‘¬’˜Ò1
 j
-java:S3252D"MUse static access with "android.provider.MediaStore$MediaColumns" for "DATA".(à‚ÿ¤8ä¡óñÑ1
+java:S3252D"MUse static access with "android.provider.MediaStore$MediaColumns" for "DATA".(à‚ÿ¤8‘¬’˜Ò1
 s
-java:S3252E"QUse static access with "android.provider.MediaStore$MediaColumns" for "DURATION".(¢‡À¼ÿÿÿÿÿ8ä¡óñÑ1
+java:S3252E"QUse static access with "android.provider.MediaStore$MediaColumns" for "DURATION".(¢‡À¼ÿÿÿÿÿ8‘¬’˜Ò1
 t
-java:S3252G"WUse static access with "android.provider.MediaStore$Audio$AudioColumns" for "IS_MUSIC".(šÒÙ8å¡óñÑ1
-W	java:S125P"<This block of commented-out lines of code should be removed.(Ü½„Y8é¡óñÑ1
-{
-java:S2142c"^Either re-interrupt this method or rethrow the "InterruptedException" that can be caught here.(ä ¹€8ë¡óñÑ1
-X	java:S125h"<This block of commented-out lines of code should be removed.(›¶Ñù8ì¡óñÑ1
+java:S3252G"WUse static access with "android.provider.MediaStore$Audio$AudioColumns" for "IS_MUSIC".(šÒÙ8’¬’˜Ò1
+W	java:S125P"<This block of commented-out lines of code should be removed.(Ü½„Y8›¬’˜Ò1
+]	java:S125`"<This block of commented-out lines of code should be removed.(çêÛÍıÿÿÿÿ8¬’˜Ò1
+k
+java:S1117³"HRename "tmpFirebaseListAudio" which hides the field declared at line 46.(ıÔº‡üÿÿÿÿ8·¬’˜Ò1
+R
+java:S1172À"/Remove this unused method parameter "callback".(¦è·ïúÿÿÿÿ8»¬’˜Ò1
+Y
+java:S1874Ï"6Remove this use of "ProgressDialog"; it is deprecated.(¿Ú•ğúÿÿÿÿ8Å¬’˜Ò1
+P
+java:S1874Ğ"2Remove this use of "setMessage"; it is deprecated.(‰Ñõ¨8Å¬’˜Ò1
+V
+java:S1874Ñ"8Remove this use of "setIndeterminate"; it is deprecated.(°­¶ß8Æ¬’˜Ò1

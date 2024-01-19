@@ -20,6 +20,12 @@ public class AudioModel implements Serializable {
         this.duration = duration;
     }
 
+    public AudioModel(){
+        path="";
+        title="";
+        duration="";
+    }
+
     public int getId() {return id;}
     public void setId(int id){this.id = id;}
     public String getPath() {

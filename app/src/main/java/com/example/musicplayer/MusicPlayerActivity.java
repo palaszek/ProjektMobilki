@@ -102,7 +102,7 @@ public class MusicPlayerActivity extends AppCompatActivity {
 
         mediaPlayer.reset();
         try {
-            mediaPlayer.setDataSource("https://firebasestorage.googleapis.com/v0/b/musicplayer-1e088.appspot.com/o/songs%2F18.%20Gimpson%20ft.%20Krycha%20-%20KRYCHA%20TECHNO%20(prod.%20Verba%26Krycha).mp3?alt=media&token=c6fc12ca-df2a-4e71-a21f-5a61438ed7aa");
+            mediaPlayer.setDataSource(currentSong.path);
             mediaPlayer.prepare();
             mediaPlayer.start();
             seekBar.setProgress(0);

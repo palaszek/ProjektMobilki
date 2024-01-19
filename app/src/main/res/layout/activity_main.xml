@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    android:background="@color/white">
 
 <TextView
     android:id="@+id/songs_text"
@@ -25,14 +26,19 @@
         android:text="NO SONGS FOUND"
         android:layout_centerInParent="true"
         android:visibility="gone"/>
-
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/playlist_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/recycler_view"
+        android:orientation="horizontal"
         android:layout_below="@id/songs_text"/>
 
-
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/playlist_recycler_view"
+        />
 
 
 </RelativeLayout>

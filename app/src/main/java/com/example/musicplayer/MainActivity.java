@@ -1,7 +1,5 @@
 package com.example.musicplayer;
 
-import static android.content.ContentValues.TAG;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -9,6 +7,7 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.ProgressDialog;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -27,12 +26,9 @@ import android.os.Looper;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.textfield.TextInputLayout;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
@@ -40,19 +36,23 @@ import java.util.concurrent.Executors;
 
 public class MainActivity extends AppCompatActivity {
 
-    RecyclerView recyclerView;
+    RecyclerView audioRecyclerView;
+    RecyclerView playlistRecyclerView;
     TextView noMusicTextView;
     ArrayList<AudioModel> songsList = new ArrayList<>();
     private DatabaseManager database;
     private ExecutorService executorService;
     private Handler handler;
+    List<AudioModel> tmpFirebaseListAudio = new ArrayList<>();
+    private ProgressDialog progressDialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         getApplicationContext().deleteDatabase("MusicPlayerDataBase");
 
-        recyclerView = findViewById(R.id.recycler_view);
+        audioRecyclerView = findViewById(R.id.recycler_view);
+        playlistRecyclerView = findViewById(R.id.playlist_recycler_view);
         noMusicTextView = findViewById(R.id.no_songs_text);
         database = DatabaseManager.getInstance(this);
         executorService = Executors.newSingleThreadExecutor();
@@ -81,73 +81,42 @@ public class MainActivity extends AppCompatActivity {
                 insert(songData);
             }
         }
+
         CountDownLatch latch = new CountDownLatch(1);
-        executorService.execute(new Runnable() {
+
+        initializeProgresBar();
+        fetchLocalData(new DataCallback() {
             @Override
-            public void run() {
-                Log.d("letsee", "zmienna: " + songsList.toString());
-                Log.d("letsee", "baza: " + database.audioDao().getAllAudios().size());
-                songsList = new ArrayList<>(database.audioDao().getAllAudios());
-                Log.d("letsee", "zmienna po wpisaniu: " + songsList.toString());
+            public void onDataLoaded(List<AudioModel> data) {
                 latch.countDown();
-
             }
         });
 
-        try {
-            latch.await();  // Czekaj, aż licznik spadnie do zera.
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+        try{
+            //latch.await();
+        }catch (Exception e)
+        {
+            Log.d("letsee", String.valueOf(e));
         }
 
-
-        /*FirebaseFirestore.getInstance().collection("song").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if (task.isSuccessful()) {
-                    QuerySnapshot document = task.getResult();
-                    if (!document.isEmpty()) {
-                        Log.d("letsee", "tu sie wywala");
-                        //List<AudioModelTest> ez = document.toObjects(AudioModelTest.class);
-                        Log.d("letsee", "DocumentSnapshot data: " + document.toObjects(AudioModelTest.class).size());
-                    } else {
-                        Log.d("letsee", "No such document");
-                    }
-                } else {
-                    Log.d("letsee", "get failed with ", task.getException());
-                }
-            }
-        });*/
-
-
-        FirebaseFirestore.getInstance().collection("song").document("song1").get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+        fetchFirebaseData(new DataCallback() {
             @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
-                    DocumentSnapshot document = task.getResult();
-                    if (document.exists()) {
-                        AudioModelTest plz = document.toObject(AudioModelTest.class);
-                        Log.d("letsee", "DocumentSnapshot data: " + plz.path);
-                    } else {
-                        Log.d("letsee", "No such document");
-                    }
-                } else {
-                    Log.d("letsee", "get failed with ", task.getException());
-                }
+            public void onDataLoaded(List<AudioModel> data) {
+                tmpFirebaseListAudio = data;
 
+                songsList.addAll(tmpFirebaseListAudio);
+                Log.d("letsee", "Po zczytaniu do głównej listy: " + songsList.size() + " Firebase: " + tmpFirebaseListAudio.size());
+
+                noMusicTextView = findViewById(R.id.no_songs_text);
+                if (songsList.isEmpty()) {
+                    noMusicTextView.setVisibility(View.VISIBLE);
+                } else {
+                    audioRecyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
+                    audioRecyclerView.setAdapter(new MusicListAdapter(songsList, getApplicationContext()));
+                }
             }
         });
 
-
-
-
-        noMusicTextView = findViewById(R.id.no_songs_text);
-        if(songsList.isEmpty()){
-            noMusicTextView.setVisibility(View.VISIBLE);
-        }else{
-            //recyclerView
-            recyclerView.setLayoutManager(new LinearLayoutManager(this));
-            recyclerView.setAdapter(new MusicListAdapter(songsList, getApplicationContext()));
-        }
     }
 
     boolean checkPermission(){
@@ -165,8 +134,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        if(recyclerView!=null){
-            recyclerView.setAdapter(new MusicListAdapter(songsList, getApplicationContext()));
+        if(audioRecyclerView !=null){
+            audioRecyclerView.setAdapter(new MusicListAdapter(songsList, getApplicationContext()));
         }
     }
 
@@ -201,4 +170,47 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+    private void fetchFirebaseData(DataCallback callback) {
+        FirebaseFirestore.getInstance().collection("song").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    QuerySnapshot document = task.getResult();
+                    if (!document.isEmpty()) {
+                        List<AudioModel> tmpFirebaseListAudio = document.toObjects(AudioModel.class);
+                        Log.d("letsee", "DocumentSnapshot data tmpfireBase: " + tmpFirebaseListAudio.size());
+                        callback.onDataLoaded(tmpFirebaseListAudio);
+                    } else {
+                        Log.d("letsee", "No such document");
+                    }
+                } else {
+                    Log.d("letsee", "get failed with ", task.getException());
+                }
+                progressDialog.dismiss();
+            }
+        });
+    }
+    private void fetchLocalData(DataCallback callback) {
+        executorService.execute(new Runnable() {
+            @Override
+            public void run() {
+                Log.d("letsee", "LocalData działa");
+
+                List<AudioModel> tmpSongList = new ArrayList<>(database.audioDao().getAllAudios());
+                for(int i = 0; i < tmpSongList.size(); i++)
+                    songsList.add(tmpSongList.get(i));
+            }
+
+        });
+    }
+
+    private void initializeProgresBar(){
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Downloading songs from Firebase...");
+        progressDialog.setIndeterminate(false);
+        progressDialog.setCancelable(false);
+        progressDialog.show();
+    }
+
+
+
 }

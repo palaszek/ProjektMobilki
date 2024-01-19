@@ -3062,3 +3062,11 @@ w
 G.idea/sonarlint/issuestore/8/8/88bae9eaf6221fbc98a7571a8b00d985812b23d5,b\8\b8cce11be7b35d44779f3821c8d1d7236a2c2ed4
 w
 G.idea/sonarlint/issuestore/8/8/88ccb459485bbe2f5107b07515b78dafdb000659,0\e\0eafb68a91ba21ae5b976d969354fa8e467262c2
+s
+Capp/src/main/java/com/example/musicplayer/FirebaseDataCallback.java,4\4\444d0c684ffcc15673169645a1bd26081ac20284
+r
+Bapp/src/main/java/com/example/musicplayer/PlaylistListAdapter.java,5\a\5a2cd2368bf4286aafffdf5267421167ce0f8045
+l
+<app/src/main/java/com/example/musicplayer/PlaylistModel.java,6\4\64affda8501f97c2bec9f0f5a6ddf602241360a2
+k
+;app/src/main/java/com/example/musicplayer/DataCallback.java,8\8\88156b0860803fb4e0a410556f5d50e3245c7d3a
