@@ -1,20 +1,23 @@
 
-d
-java:S1192N"GDefine a constant instead of duplicating this literal "letsee" 3 times.(€¤òò8Üú”ëÑ1
+i
+java:S1192N"GDefine a constant instead of duplicating this literal "letsee" 7 times.(ş¬¦Íıÿÿÿÿ8—¡óñÑ1
 J
-java:S1604K"(Make this anonymous inner class a lambda(á†áıÿÿÿÿ8İú”ëÑ1
+java:S1604U"(Make this anonymous inner class a lambda(á†áıÿÿÿÿ8˜¡óñÑ1
+J
+java:S1604z"(Make this anonymous inner class a lambda(‘’¢ãûÿÿÿÿ8˜¡óñÑ1
 E
-java:S1604"(Make this anonymous inner class a lambda(ç’ƒL8İú”ëÑ1
-J
-java:S1604~"(Make this anonymous inner class a lambda(á†áıÿÿÿÿ8‚Ç•ëÑ1
+java:S1604¿"(Make this anonymous inner class a lambda(ç’ƒL8˜¡óñÑ1
+K
+java:S1604°"(Make this anonymous inner class a lambda(á†áıÿÿÿÿ8˜¡óñÑ1
 p
-java:S3252:"NUse static access with "android.provider.MediaStore$MediaColumns" for "TITLE".(ÃÌ¯Ïÿÿÿÿÿ8¢û”ëÑ1
+java:S3252C"NUse static access with "android.provider.MediaStore$MediaColumns" for "TITLE".(ÃÌ¯Ïÿÿÿÿÿ8ä¡óñÑ1
 j
-java:S3252;"MUse static access with "android.provider.MediaStore$MediaColumns" for "DATA".(à‚ÿ¤8¢û”ëÑ1
+java:S3252D"MUse static access with "android.provider.MediaStore$MediaColumns" for "DATA".(à‚ÿ¤8ä¡óñÑ1
 s
-java:S3252<"QUse static access with "android.provider.MediaStore$MediaColumns" for "DURATION".(¢‡À¼ÿÿÿÿÿ8£û”ëÑ1
+java:S3252E"QUse static access with "android.provider.MediaStore$MediaColumns" for "DURATION".(¢‡À¼ÿÿÿÿÿ8ä¡óñÑ1
 t
-java:S3252>"WUse static access with "android.provider.MediaStore$Audio$AudioColumns" for "IS_MUSIC".(šÒÙ8£û”ëÑ1
-W	java:S125F"<This block of commented-out lines of code should be removed.(Ü½„Y8¦û”ëÑ1
+java:S3252G"WUse static access with "android.provider.MediaStore$Audio$AudioColumns" for "IS_MUSIC".(šÒÙ8å¡óñÑ1
+W	java:S125P"<This block of commented-out lines of code should be removed.(Ü½„Y8é¡óñÑ1
 {
-java:S2142Y"^Either re-interrupt this method or rethrow the "InterruptedException" that can be caught here.(ä ¹€8¹ÛœëÑ1
+java:S2142c"^Either re-interrupt this method or rethrow the "InterruptedException" that can be caught here.(ä ¹€8ë¡óñÑ1
+X	java:S125h"<This block of commented-out lines of code should be removed.(›¶Ñù8ì¡óñÑ1

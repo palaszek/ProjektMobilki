@@ -1,5 +1,8 @@
 package com.example.musicplayer;
 
+import static android.content.ContentValues.TAG;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -21,7 +24,13 @@ import java.util.ArrayList;
 
 import android.os.Handler;
 import android.os.Looper;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.Arrays;
 import java.util.List;
@@ -66,6 +75,7 @@ public class MainActivity extends AppCompatActivity {
 
         while(cursor.moveToNext()){
             AudioModel songData = new AudioModel(cursor.getString(1), cursor.getString(0), cursor.getString(2));
+            Log.d("letsee", cursor.getString(2));
             if(new File(songData.getPath()).exists()){
                 //songsList.add(songData);
                 insert(songData);
@@ -89,6 +99,46 @@ public class MainActivity extends AppCompatActivity {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+
+
+        /*FirebaseFirestore.getInstance().collection("song").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    QuerySnapshot document = task.getResult();
+                    if (!document.isEmpty()) {
+                        Log.d("letsee", "tu sie wywala");
+                        //List<AudioModelTest> ez = document.toObjects(AudioModelTest.class);
+                        Log.d("letsee", "DocumentSnapshot data: " + document.toObjects(AudioModelTest.class).size());
+                    } else {
+                        Log.d("letsee", "No such document");
+                    }
+                } else {
+                    Log.d("letsee", "get failed with ", task.getException());
+                }
+            }
+        });*/
+
+
+        FirebaseFirestore.getInstance().collection("song").document("song1").get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        AudioModelTest plz = document.toObject(AudioModelTest.class);
+                        Log.d("letsee", "DocumentSnapshot data: " + plz.path);
+                    } else {
+                        Log.d("letsee", "No such document");
+                    }
+                } else {
+                    Log.d("letsee", "get failed with ", task.getException());
+                }
+
+            }
+        });
+
+
+
 
         noMusicTextView = findViewById(R.id.no_songs_text);
         if(songsList.isEmpty()){
