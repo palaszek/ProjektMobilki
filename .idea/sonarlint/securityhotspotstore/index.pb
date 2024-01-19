@@ -3070,3 +3070,9 @@ l
 <app/src/main/java/com/example/musicplayer/PlaylistModel.java,6\4\64affda8501f97c2bec9f0f5a6ddf602241360a2
 k
 ;app/src/main/java/com/example/musicplayer/DataCallback.java,8\8\88156b0860803fb4e0a410556f5d50e3245c7d3a
+s
+Capp/src/main/java/com/example/musicplayer/PlaylistSongCrossRef.java,4\3\43679639e200062ddc40959a4028909765409d5f
+p
+@app/src/main/java/com/example/musicplayer/PlaylistWithSongs.java,3\c\3cbe8ec6c5c2177e27a270261ac87c1c541f307f
+j
+:app/src/main/java/com/example/musicplayer/PlaylistDao.java,c\0\c061e0fd8de13538353435dea1f2f8b137668cde

@@ -16,13 +16,13 @@ import java.util.List;
 public interface AudioDao {
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    void insert(AudioModel... audios);
+    void insert(AudioModel... audio);
 
-    @Query("select * from audios")
+    @Query("select * from audio")
     List<AudioModel> getAllAudios();
 
-    @Query("select * from audios where id like :id")
-    AudioModel getUser(int id);
+    @Query("select * from audio where songId like :id")
+    AudioModel getAudio(int id);
 
     @Update
     void updateAudio(AudioModel... audio);

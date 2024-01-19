@@ -5,11 +5,11 @@ import java.io.Serializable;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-@Entity(tableName = "audios")
+@Entity(tableName = "audio")
 public class AudioModel implements Serializable {
 
     @PrimaryKey(autoGenerate = true)
-            public int id;
+            public int songId;
     String path;
     String title;
     String duration;
@@ -26,8 +26,8 @@ public class AudioModel implements Serializable {
         duration="";
     }
 
-    public int getId() {return id;}
-    public void setId(int id){this.id = id;}
+    public int getId() {return songId;}
+    public void setId(int id){this.songId = id;}
     public String getPath() {
         return path;
     }

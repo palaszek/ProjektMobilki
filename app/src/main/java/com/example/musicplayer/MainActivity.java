@@ -45,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
     private Handler handler;
     List<AudioModel> tmpFirebaseListAudio = new ArrayList<>();
     private ProgressDialog progressDialog;
+    private PlaylistModel testPlaylist;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,6 +58,7 @@ public class MainActivity extends AppCompatActivity {
         database = DatabaseManager.getInstance(this);
         executorService = Executors.newSingleThreadExecutor();
         handler = new Handler(Looper.getMainLooper());
+        testPlaylist = new PlaylistModel("Testowa");
 
         if(!checkPermission()){
             requestPermission();
@@ -71,6 +73,7 @@ public class MainActivity extends AppCompatActivity {
         String selection = MediaStore.Audio.Media.IS_MUSIC + " != 0";
 
         Cursor cursor = getContentResolver().query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, projection, selection, null,null);
+
 
 
         while(cursor.moveToNext()){
@@ -198,6 +201,19 @@ public class MainActivity extends AppCompatActivity {
                 List<AudioModel> tmpSongList = new ArrayList<>(database.audioDao().getAllAudios());
                 for(int i = 0; i < tmpSongList.size(); i++)
                     songsList.add(tmpSongList.get(i));
+
+                database.playlistDao().insertPlaylist(testPlaylist);
+
+                PlaylistSongCrossRef test = new PlaylistSongCrossRef();
+                test.playlistId=database.playlistDao().getPlaylist(1).playlistId;
+                test.songId=database.audioDao().getAudio(2).songId;
+
+                PlaylistSongCrossRef test1 = new PlaylistSongCrossRef();
+                test1.playlistId=database.playlistDao().getPlaylist(1).playlistId;
+                test1.songId=database.audioDao().getAudio(1).songId;
+
+                database.playlistDao().addSongToPlaylist(test1);
+                database.playlistDao().addSongToPlaylist(test);
             }
 
         });

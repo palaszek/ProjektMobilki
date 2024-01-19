@@ -9,10 +9,11 @@ import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
 
-@Database(entities = {AudioModel.class}, version=1)
+@Database(entities = {AudioModel.class, PlaylistModel.class, PlaylistSongCrossRef.class}, version=1)
 public abstract class DatabaseManager extends RoomDatabase {
 
     public abstract AudioDao audioDao();
+    public abstract PlaylistDao playlistDao();
     private static DatabaseManager instance = null;
 
     public static synchronized DatabaseManager getInstance(Context context) {
@@ -39,6 +40,7 @@ public abstract class DatabaseManager extends RoomDatabase {
     private static class PopulateDbAsyncTask extends AsyncTask<Void, Void, Void> {
         public PopulateDbAsyncTask(DatabaseManager instance){
             AudioDao audioDao = instance.audioDao();
+            PlaylistDao playlistDao = instance.playlistDao();
         }
         @Override protected Void doInBackground(Void... voids) { return null;}
     }
