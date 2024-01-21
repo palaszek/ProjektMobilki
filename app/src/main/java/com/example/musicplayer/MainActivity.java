@@ -11,8 +11,10 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.app.NotificationManager;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.InputType;
@@ -149,6 +151,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+
     boolean checkPermission(){
         int result = ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.READ_MEDIA_AUDIO);
         return result == PackageManager.PERMISSION_GRANTED;
@@ -168,6 +171,14 @@ public class MainActivity extends AppCompatActivity {
             playlistRecyclerView.setAdapter(new PlaylistListAdapter(playlistList, getApplicationContext()));
         }
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        NotificationManager notificationManager = getSystemService(NotificationManager.class);
+        notificationManager.cancel(NotificationChannelBuilder.CHANNEL_ID_INT);
+    }
+
 
     private void insert(AudioModel audioToInsert){
         final boolean[] isInserted = {false};

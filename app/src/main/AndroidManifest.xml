@@ -6,6 +6,7 @@
         android:name="android.permission.READ_EXTERNAL_STORAGE"
         android:maxSdkVersion="32" />
     <uses-permission android:name="android.permission.READ_MEDIA_AUDIO" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
 
     <application
         android:allowBackup="true"
@@ -36,6 +37,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <receiver
+            android:name=".MusicNotification"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="ACTION_PREVIOUS" />
+                <action android:name="ACTION_PLAY/PAUSE" />
+                <action android:name="ACTION_NEXT" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>
