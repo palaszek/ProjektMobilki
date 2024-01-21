@@ -18,9 +18,11 @@ public class MusicPlayerActivity extends AppCompatActivity {
 
     TextView titleTv, currentTimeTv, totalTimeTv;
     SeekBar seekBar;
-    ImageView pausePLay, nextBtn,previousBtn,musicIcon;
+    ImageView pausePLay, nextBtn, previousBtn, musicIcon, strategyBtn;
     ArrayList<AudioModel> songsList;
     AudioModel currentSong;
+    PlaybackStrategy strategy = new SequencePlay();
+    int strategyId = 1; //1 - SequencePlay, 2 - RandomPlay, 3 - LoopPlay
     MediaPlayer mediaPlayer = MyMediaPlayer.getInstance();
     int x = 0;
     @Override
@@ -35,6 +37,7 @@ public class MusicPlayerActivity extends AppCompatActivity {
         pausePLay = findViewById(R.id.pause_play);
         nextBtn = findViewById(R.id.next);
         previousBtn = findViewById(R.id.previous);
+        strategyBtn = findViewById(R.id.playing_strategy);
         musicIcon = findViewById(R.id.music_icon_playing);
 
         titleTv.setSelected(true);
@@ -53,11 +56,13 @@ public class MusicPlayerActivity extends AppCompatActivity {
                     if(mediaPlayer.isPlaying()){
                         pausePLay.setImageResource(R.drawable.baseline_pause_circle_outline_24);
                         musicIcon.setRotation(x++);
-                    }else{
+                    } else{
                         pausePLay.setImageResource(R.drawable.baseline_play_circle_outline_24);
                         musicIcon.setRotation(0);
                         x=0;
                     }
+                    if (mediaPlayer.getCurrentPosition() >= mediaPlayer.getDuration())
+                        playAfterFinish();
                 }
                 new Handler().postDelayed(this, 100);
             }
@@ -93,6 +98,7 @@ public class MusicPlayerActivity extends AppCompatActivity {
         pausePLay.setOnClickListener(v -> pausePlay());
         nextBtn.setOnClickListener(v -> playNextSong());
         previousBtn.setOnClickListener(v -> playPreviousSong());
+        strategyBtn.setOnClickListener(v -> changeStrategy());
 
         playMusic();
     }
@@ -102,7 +108,7 @@ public class MusicPlayerActivity extends AppCompatActivity {
 
         mediaPlayer.reset();
         try {
-            mediaPlayer.setDataSource("https://firebasestorage.googleapis.com/v0/b/musicplayer-1e088.appspot.com/o/songs%2F18.%20Gimpson%20ft.%20Krycha%20-%20KRYCHA%20TECHNO%20(prod.%20Verba%26Krycha).mp3?alt=media&token=c6fc12ca-df2a-4e71-a21f-5a61438ed7aa");
+            mediaPlayer.setDataSource(currentSong.path);
             mediaPlayer.prepare();
             mediaPlayer.start();
             seekBar.setProgress(0);
@@ -112,20 +118,44 @@ public class MusicPlayerActivity extends AppCompatActivity {
         }
     }
 
-    private void playNextSong(){
-        if(MyMediaPlayer.currentIndex == songsList.size()-1)
-            return;
-        MyMediaPlayer.currentIndex +=1;
-        mediaPlayer.reset();
-        setResourcesWithMusic();
+    private void changeStrategy(){
+        if (strategyId == 3)
+            strategyId = 1;
+        else
+            strategyId++;
 
+        switch (strategyId) {
+            case 1:
+                strategy = new SequencePlay();
+                strategyBtn.setImageResource(R.drawable.baseline_repeat_24);
+                break;
+            case 2:
+                strategy = new RandomPlay();
+                strategyBtn.setImageResource(R.drawable.baseline_shuffle_24);
+                break;
+            case 3:
+                strategy = new LoopPlay();
+                strategyBtn.setImageResource(R.drawable.baseline_repeat_one_24);
+                break;
+            default:
+                strategy = new SequencePlay();
+                strategyBtn.setImageResource(R.drawable.baseline_repeat_24);
+                break;
+        }
+    }
+
+    private void playNextSong(){
+        strategy.playNextSong(mediaPlayer, (songsList.size())-1);
+        setResourcesWithMusic();
     }
 
     private void playPreviousSong(){
-        if(MyMediaPlayer.currentIndex == 0)
-            return;
-        MyMediaPlayer.currentIndex -=1;
-        mediaPlayer.reset();
+        strategy.playPreviousSong(mediaPlayer, (songsList.size())-1);
+        setResourcesWithMusic();
+    }
+
+    private void playAfterFinish(){
+        strategy.playAfterFinish(mediaPlayer, (songsList.size())-1);
         setResourcesWithMusic();
     }
 

@@ -3062,3 +3062,11 @@ w
 G.idea/sonarlint/issuestore/8/8/88bae9eaf6221fbc98a7571a8b00d985812b23d5,b\8\b8cce11be7b35d44779f3821c8d1d7236a2c2ed4
 w
 G.idea/sonarlint/issuestore/8/8/88ccb459485bbe2f5107b07515b78dafdb000659,0\e\0eafb68a91ba21ae5b976d969354fa8e467262c2
+g
+7app/src/main/java/com/example/musicplayer/LoopPlay.java,7\b\7bace87f5e64f0c0d452a0f333bcf0fa2034ad5d
+i
+9app/src/main/java/com/example/musicplayer/RandomPlay.java,0\f\0f458fb73a2f2c618842605fbc02c2eaf56372e4
+o
+?app/src/main/java/com/example/musicplayer/PlaybackStrategy.java,5\5\5593b460121a8c3bd4a8b118c04e2a24fab013a2
+k
+;app/src/main/java/com/example/musicplayer/SequencePlay.java,b\7\b7bd51d1b1a70549f70bae406f30750fd66693de

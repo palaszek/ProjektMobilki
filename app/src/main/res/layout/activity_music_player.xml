@@ -8,16 +8,19 @@
     tools:context=".MusicPlayerActivity">
 
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:id="@+id/song_title"
-        android:text="Title of the song"
-        android:singleLine="true"
+        android:layout_width="304dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="20dp"
         android:ellipsize="marquee"
+        android:padding="20dp"
+        android:singleLine="true"
+        android:text="Title of the song"
         android:textColor="@color/white"
-        android:textSize="20dp"
-        android:layout_margin="20dp"
-        android:padding="20dp"/>
+        android:textSize="20dp" />
 
     <ImageView
         android:layout_width="240dp"
@@ -27,6 +30,16 @@
         android:padding="20dp"
         android:id="@+id/music_icon_playing"
         android:src="@drawable/vinyl_record"/>
+
+    <ImageView
+        android:id="@+id/playing_strategy"
+        android:layout_width="54dp"
+        android:layout_height="53dp"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="27dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="20dp"
+        android:src="@drawable/baseline_repeat_24" />
 
     <RelativeLayout
         android:layout_width="match_parent"
