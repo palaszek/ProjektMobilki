@@ -6,8 +6,10 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.NotificationManager;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -100,6 +102,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+
     boolean checkPermission(){
         int result = ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.READ_MEDIA_AUDIO);
         return result == PackageManager.PERMISSION_GRANTED;
@@ -119,6 +122,14 @@ public class MainActivity extends AppCompatActivity {
             recyclerView.setAdapter(new MusicListAdapter(songsList, getApplicationContext()));
         }
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        NotificationManager notificationManager = getSystemService(NotificationManager.class);
+        notificationManager.cancel(NotificationChannelBuilder.CHANNEL_ID_INT);
+    }
+
 
     private void insert(AudioModel audioToInsert){
         final boolean[] isInserted = {false};

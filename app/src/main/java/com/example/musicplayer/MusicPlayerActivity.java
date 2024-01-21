@@ -2,10 +2,23 @@ package com.example.musicplayer;
 
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.media.MediaPlayer;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -14,19 +27,27 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
-public class MusicPlayerActivity extends AppCompatActivity {
+public class MusicPlayerActivity extends AppCompatActivity implements Observer {
 
     TextView titleTv, currentTimeTv, totalTimeTv;
     SeekBar seekBar;
-    ImageView pausePLay, nextBtn,previousBtn,musicIcon;
+    ImageView pausePLay, nextBtn, previousBtn, musicIcon;
     ArrayList<AudioModel> songsList;
     AudioModel currentSong;
     MediaPlayer mediaPlayer = MyMediaPlayer.getInstance();
+
+    private Observable musicNotification;
+
+    private NotificationChannelBuilder notificationChannelBuilder;
     int x = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_music_player);
+
+
+        notificationChannelBuilder = new NotificationChannelBuilder();
 
         titleTv = findViewById(R.id.song_title);
         currentTimeTv = findViewById(R.id.current_time);
@@ -41,19 +62,29 @@ public class MusicPlayerActivity extends AppCompatActivity {
 
         songsList = (ArrayList<AudioModel>) getIntent().getSerializableExtra("LIST");
 
+
         setResourcesWithMusic();
+
+        musicNotification = new MusicNotification();
+        musicNotification.addObserver(this);
+        createNotificationChannel();
+        notificationChannelBuilder.showNotification(this, songsList.get(MyMediaPlayer.currentIndex), R.drawable.baseline_pause_circle_outline_24);
 
         MusicPlayerActivity.this.runOnUiThread(new Runnable() {
             @Override
-            public void run() {
-                if(mediaPlayer != null){
+            public void run()
+            {
+                if(mediaPlayer != null)
+                {
                     seekBar.setProgress(mediaPlayer.getCurrentPosition());
                     currentTimeTv.setText(convertToMMSS(mediaPlayer.getCurrentPosition()+""));
 
                     if(mediaPlayer.isPlaying()){
                         pausePLay.setImageResource(R.drawable.baseline_pause_circle_outline_24);
                         musicIcon.setRotation(x++);
-                    }else{
+                    }
+                    else
+                    {
                         pausePLay.setImageResource(R.drawable.baseline_play_circle_outline_24);
                         musicIcon.setRotation(0);
                         x=0;
@@ -98,6 +129,7 @@ public class MusicPlayerActivity extends AppCompatActivity {
     }
 
 
+
     private void playMusic(){
 
         mediaPlayer.reset();
@@ -118,6 +150,7 @@ public class MusicPlayerActivity extends AppCompatActivity {
         MyMediaPlayer.currentIndex +=1;
         mediaPlayer.reset();
         setResourcesWithMusic();
+        notificationChannelBuilder.showNotification(this, songsList.get(MyMediaPlayer.currentIndex), R.drawable.baseline_pause_circle_outline_24);
 
     }
 
@@ -127,13 +160,18 @@ public class MusicPlayerActivity extends AppCompatActivity {
         MyMediaPlayer.currentIndex -=1;
         mediaPlayer.reset();
         setResourcesWithMusic();
+        notificationChannelBuilder.showNotification(this, songsList.get(MyMediaPlayer.currentIndex), R.drawable.baseline_pause_circle_outline_24);
     }
 
-    private void pausePlay(){
-    if(mediaPlayer.isPlaying())
-        mediaPlayer.pause();
-    else
-        mediaPlayer.start();
+    private void pausePlay() {
+        if (mediaPlayer.isPlaying()) {
+            mediaPlayer.pause();
+            notificationChannelBuilder.showNotification(this, songsList.get(MyMediaPlayer.currentIndex), R.drawable.baseline_play_circle_outline_24);
+        } else {
+            mediaPlayer.start();
+            notificationChannelBuilder.showNotification(this, songsList.get(MyMediaPlayer.currentIndex), R.drawable.baseline_pause_circle_outline_24);
+
+        }
     }
 
     public static String convertToMMSS(String duration){
@@ -142,4 +180,33 @@ public class MusicPlayerActivity extends AppCompatActivity {
                 TimeUnit.MILLISECONDS.toMinutes(millis) % TimeUnit.HOURS.toMinutes(1),
                 TimeUnit.MILLISECONDS.toSeconds(millis) % TimeUnit.MINUTES.toSeconds(1));
     }
+
+    private void createNotificationChannel() {
+        // dla API 26+
+        NotificationManager notificationManager = getSystemService(NotificationManager.class);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel(NotificationChannelBuilder.CHANNEL_ID, NotificationChannelBuilder.CHANNEL_NAME, importance);
+
+            notificationManager.createNotificationChannel(channel);
+        }
+    }
+    @Override
+    public void updateOnPrevious() {
+        playPreviousSong();
+   }
+
+    @Override
+    public void updateOnNext() {
+        playNextSong();
+
+    }
+
+    @Override
+    public void updateOnPlayPause() {
+        pausePlay();
+    }
+
+
 }
