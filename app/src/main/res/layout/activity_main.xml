@@ -12,11 +12,35 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:textColor="@color/black"
-    android:text = "SONGS"
+    android:text = "MusicPlayer"
     android:textSize="20dp"
     android:textStyle="bold"
     android:padding="10dp"
     android:layout_centerHorizontal="true"/>
+
+    <Button
+        android:id="@+id/add_playlist_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/songs_text"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:text="Stwórz nową playlistę"
+        android:textColor="@color/white" />
+
+    <ImageButton
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_alignRight="@id/playlist_recycler_view"
+        android:layout_below="@id/songs_text"
+        android:src="@drawable/baseline_find_in_page_24"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:background="@color/white"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -31,7 +55,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_below="@id/songs_text"/>
+        android:layout_below="@id/add_playlist_button"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view"

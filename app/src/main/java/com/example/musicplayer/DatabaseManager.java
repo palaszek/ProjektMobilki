@@ -27,6 +27,11 @@ public abstract class DatabaseManager extends RoomDatabase {
         return instance;
     }
 
+    public static synchronized DatabaseManager getInstance()
+    {
+        return instance;
+    }
+
 
     private static RoomDatabase.Callback roomCallback = new RoomDatabase.Callback() {
         @Override

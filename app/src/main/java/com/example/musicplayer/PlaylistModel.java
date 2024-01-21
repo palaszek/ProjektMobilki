@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey;
 import java.io.Serializable;
 
 @Entity(tableName = "playlist")
-public class PlaylistModel {
+public class PlaylistModel implements Serializable{
 
     @PrimaryKey(autoGenerate = true)
     public int playlistId;

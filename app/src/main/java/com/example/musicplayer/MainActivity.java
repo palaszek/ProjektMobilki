@@ -7,13 +7,18 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.text.InputType;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.Manifest;
 import android.widget.Toast;
@@ -40,17 +45,19 @@ public class MainActivity extends AppCompatActivity {
     RecyclerView playlistRecyclerView;
     TextView noMusicTextView;
     ArrayList<AudioModel> songsList = new ArrayList<>();
-    private DatabaseManager database;
+    ArrayList<PlaylistModel> playlistList = new ArrayList<>();
+    public DatabaseManager database;
     private ExecutorService executorService;
     private Handler handler;
     List<AudioModel> tmpFirebaseListAudio = new ArrayList<>();
     private ProgressDialog progressDialog;
-    private PlaylistModel testPlaylist;
+    PlaylistModel playlistModel;
+    Button addPlaylistButton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        getApplicationContext().deleteDatabase("MusicPlayerDataBase");
+        //getApplicationContext().deleteDatabase("MusicPlayerDataBase");
 
         audioRecyclerView = findViewById(R.id.recycler_view);
         playlistRecyclerView = findViewById(R.id.playlist_recycler_view);
@@ -58,7 +65,9 @@ public class MainActivity extends AppCompatActivity {
         database = DatabaseManager.getInstance(this);
         executorService = Executors.newSingleThreadExecutor();
         handler = new Handler(Looper.getMainLooper());
-        testPlaylist = new PlaylistModel("Testowa");
+        addPlaylistButton = findViewById(R.id.add_playlist_button);
+
+        addPlaylistButton.setOnClickListener(v -> showAddPlaylistDialog());
 
         if(!checkPermission()){
             requestPermission();
@@ -88,15 +97,18 @@ public class MainActivity extends AppCompatActivity {
         CountDownLatch latch = new CountDownLatch(1);
 
         initializeProgresBar();
+
         fetchLocalData(new DataCallback() {
             @Override
             public void onDataLoaded(List<AudioModel> data) {
+                playlistModel = PlaylistFactory.createPlaylist("Local");
+                playlistList = new ArrayList<>(database.playlistDao().getAllPlayLists());
                 latch.countDown();
             }
         });
 
         try{
-            //latch.await();
+            latch.await();
         }catch (Exception e)
         {
             Log.d("letsee", String.valueOf(e));
@@ -114,11 +126,14 @@ public class MainActivity extends AppCompatActivity {
                 if (songsList.isEmpty()) {
                     noMusicTextView.setVisibility(View.VISIBLE);
                 } else {
+                    playlistRecyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
+                    playlistRecyclerView.setAdapter(new PlaylistListAdapter(playlistList, getApplicationContext()));
                     audioRecyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
                     audioRecyclerView.setAdapter(new MusicListAdapter(songsList, getApplicationContext()));
                 }
             }
         });
+
 
     }
 
@@ -202,18 +217,7 @@ public class MainActivity extends AppCompatActivity {
                 for(int i = 0; i < tmpSongList.size(); i++)
                     songsList.add(tmpSongList.get(i));
 
-                database.playlistDao().insertPlaylist(testPlaylist);
-
-                PlaylistSongCrossRef test = new PlaylistSongCrossRef();
-                test.playlistId=database.playlistDao().getPlaylist(1).playlistId;
-                test.songId=database.audioDao().getAudio(2).songId;
-
-                PlaylistSongCrossRef test1 = new PlaylistSongCrossRef();
-                test1.playlistId=database.playlistDao().getPlaylist(1).playlistId;
-                test1.songId=database.audioDao().getAudio(1).songId;
-
-                database.playlistDao().addSongToPlaylist(test1);
-                database.playlistDao().addSongToPlaylist(test);
+                callback.onDataLoaded(songsList);
             }
 
         });
@@ -225,6 +229,54 @@ public class MainActivity extends AppCompatActivity {
         progressDialog.setIndeterminate(false);
         progressDialog.setCancelable(false);
         progressDialog.show();
+    }
+
+
+
+    private void showAddPlaylistDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Nowa Playlista");
+
+        // Dodajemy pole tekstowe do wprowadzenia nazwy playlisty
+        final EditText input = new EditText(this);
+        input.setInputType(InputType.TYPE_CLASS_TEXT);
+        builder.setView(input);
+
+        // Dodajemy przycisk "Anuluj"
+        builder.setNegativeButton("Anuluj", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.cancel();
+            }
+        });
+
+        // Dodajemy przycisk "Zatwierdź"
+        builder.setPositiveButton("Zatwierdź", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                String playlistName = input.getText().toString();
+                // Tutaj możesz wykorzystać wprowadzoną nazwę playlisty do odpowiednich akcji
+                // np. dodanie nowej playlisty do listy i odświeżenie widoku
+                addNewPlaylist(playlistName);
+            }
+        });
+
+        builder.show();
+    }
+
+    private void addNewPlaylist(String playlistName) {
+        // Tutaj dodaj kod do obsługi dodawania nowej playlisty
+        // np. dodanie do listy playlist i odświeżenie widoku
+        PlaylistModel newPlaylist = PlaylistFactory.createPlaylist(playlistName);
+        playlistList.add(newPlaylist);
+        executorService.execute(new Runnable() {
+            @Override
+            public void run() {
+                database.playlistDao().insertPlaylist(newPlaylist);
+            }
+        });
+
+        playlistRecyclerView.getAdapter().notifyDataSetChanged();
     }
 
 

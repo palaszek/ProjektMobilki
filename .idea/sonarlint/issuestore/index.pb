@@ -1512,8 +1512,6 @@ Q.idea/sonarlint/securityhotspotstore/3/4/34d99652b6ccbb0377fa2e68934b68ed7190aa
 Q.idea/sonarlint/securityhotspotstore/6/5/65f46fc5d7d358d8fe2bc02d83fd56e91094b603,5\e\5eb6e091bc7604088fd360f4f36fc745b3a9ec3a
 
 Q.idea/sonarlint/securityhotspotstore/8/5/8579f9e55e76ca44d55a473da8965e1e45f71d34,2\c\2caa214c213abdff9694c10309fdac4d059f12cf
-m
-=app/src/main/java/com/example/musicplayer/AudioModelTest.java,9\d\9da1b5d21c812a82e3bd49198811605ac1d22947
 w
 G.idea/sonarlint/issuestore/6/0/6020135d8780099d70710d45dee482c6ab1f707f,2\3\23581d7105335ba732583d927edb77e2407a9614
 w
@@ -2397,8 +2395,6 @@ Q.idea/sonarlint/securityhotspotstore/e/5/e58c931007fcb5f1e42ee0ace22b502b8383dc
 
 Q.idea/sonarlint/securityhotspotstore/6/0/6020135d8780099d70710d45dee482c6ab1f707f,6\8\68618d607c5f37f17371bfa6df8da18d39df53d8
 
-Q.idea/sonarlint/securityhotspotstore/9/d/9da1b5d21c812a82e3bd49198811605ac1d22947,6\3\631633f8d7b6abcb2130afd606fde8416ef4f4ae
-
 Q.idea/sonarlint/securityhotspotstore/6/0/60dc133bd5325f7641d13d2f0236befdc98a64c5,9\9\99d154483af25809faff93834c055d9951016afb
 
 Q.idea/sonarlint/securityhotspotstore/6/5/65f4cac662027ead5c1c29aed2f619c1d0e20114,a\e\ae36091f0658843df94b89f76d80d86a8d67cdc0
@@ -3062,8 +3058,6 @@ w
 G.idea/sonarlint/issuestore/8/8/88bae9eaf6221fbc98a7571a8b00d985812b23d5,b\8\b8cce11be7b35d44779f3821c8d1d7236a2c2ed4
 w
 G.idea/sonarlint/issuestore/8/8/88ccb459485bbe2f5107b07515b78dafdb000659,0\e\0eafb68a91ba21ae5b976d969354fa8e467262c2
-s
-Capp/src/main/java/com/example/musicplayer/FirebaseDataCallback.java,4\4\444d0c684ffcc15673169645a1bd26081ac20284
 r
 Bapp/src/main/java/com/example/musicplayer/PlaylistListAdapter.java,5\a\5a2cd2368bf4286aafffdf5267421167ce0f8045
 l
@@ -3076,3 +3070,9 @@ p
 @app/src/main/java/com/example/musicplayer/PlaylistWithSongs.java,3\c\3cbe8ec6c5c2177e27a270261ac87c1c541f307f
 j
 :app/src/main/java/com/example/musicplayer/PlaylistDao.java,c\0\c061e0fd8de13538353435dea1f2f8b137668cde
+n
+>app/src/main/java/com/example/musicplayer/PlaylistFactory.java,2\e\2ef13ebf6ff9812c538a528a16a556d5b9b3cda3
+p
+@app/src/main/java/com/example/musicplayer/SongsListActivity.java,8\2\823b1e3dda7d60cb95f827d93120f3bdff803ed3
+p
+@app/src/main/java/com/example/musicplayer/MusicListActivity.java,a\f\afde37aeb6d291ae63d168612f1b53c16a3f0fde

@@ -16,8 +16,16 @@ public interface PlaylistDao {
     List<PlaylistWithSongs> getPlaylistsWithSongs();
 
     @Transaction
+    @Query(("SELECT * FROM playlist"))
+    List<PlaylistModel> getAllPlayLists();
+
+    @Transaction
     @Query("SELECT * FROM playlist WHERE playlistId = :id")
     PlaylistModel getPlaylist(int id);
+
+    @Transaction
+    @Query("SELECT * FROM playlist WHERE playlistName LIKE :name")
+    PlaylistModel getPlaylist(String name);
 
     @Transaction
     @Insert(onConflict = OnConflictStrategy.IGNORE)
@@ -29,7 +37,7 @@ public interface PlaylistDao {
     void removeSongFromPlaylist(int playlistId, int songId);
 
     @Transaction
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     void addSongToPlaylist(PlaylistSongCrossRef playlistSongCrossRef);
 
     @Transaction
