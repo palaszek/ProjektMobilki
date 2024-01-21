@@ -3078,3 +3078,17 @@ p
 Kapp/src/main/java/com/example/musicplayer/OnAddToPlaylistClickListener.java,e\c\ec9d90391120369606ce75501c3cfef67099213d
 s
 Capp/src/main/java/com/example/musicplayer/AllMusicListActivity.java,8\7\873a9b15bfcca4507e10225bc5ac3f2b4bd0d6b6
+s
+Capp/src/main/java/com/example/musicplayer/FirebaseProxyService.java,4\3\43d961667d7242654415323e8a140f8f22419ca6
+o
+?app/src/main/java/com/example/musicplayer/IFirebaseService.java,5\9\59f4890deeb48dee3a919b55d1ee0acd2116b713
+p
+@app/src/main/java/com/example/musicplayer/MusicNotification.java,c\8\c8942ed1b377c1c2c8a000a4acb1016373e9e912
+m
+=app/src/main/java/com/example/musicplayer/ObserversSaver.java,a\a\aa60e980a863f40cf64dd8dfc4c56fe26e3bf4b2
+y
+Iapp/src/main/java/com/example/musicplayer/NotificationChannelBuilder.java,4\d\4daf8fef241c51ad6291aab0dc2167183014d7d0
+i
+9app/src/main/java/com/example/musicplayer/Observable.java,1\d\1d0b40b80ce26d442e9b6ea5570bfbf383315d25
+g
+7app/src/main/java/com/example/musicplayer/Observer.java,e\f\efe2e7720d768ed9ae291a69be60c837c7c1089f

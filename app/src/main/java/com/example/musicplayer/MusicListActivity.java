@@ -61,7 +61,8 @@ public class MusicListActivity extends AppCompatActivity implements OnAddToPlayl
         // Pobieramy listę nazw playlist
         List<String> playlistNames = new ArrayList<>();
         for (PlaylistModel playlist : playlistList) {
-            playlistNames.add(playlist.playlistName);
+            if(playlist.playlistId != 1)
+                playlistNames.add(playlist.playlistName);
         }
 
         // Konwertujemy listę na tablicę dla ArrayAdapter

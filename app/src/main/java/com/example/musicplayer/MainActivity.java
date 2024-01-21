@@ -48,13 +48,10 @@ import java.util.concurrent.Executors;
 public class MainActivity extends AppCompatActivity {
 
     RecyclerView playlistRecyclerView;
-    TextView noMusicTextView;
     ArrayList<AudioModel> songsList = new ArrayList<>();
     ArrayList<PlaylistModel> playlistList = new ArrayList<>();
     public DatabaseManager database;
     private ExecutorService executorService;
-    private Handler handler;
-    private ProgressDialog progressDialog;
     PlaylistModel playlistModel;
     Button addPlaylistButton;
     ImageButton allSongsButton;
@@ -67,15 +64,16 @@ public class MainActivity extends AppCompatActivity {
         //getApplicationContext().deleteDatabase("MusicPlayerDataBase");
 
         playlistRecyclerView = findViewById(R.id.playlist_recycler_view);
-        noMusicTextView = findViewById(R.id.no_songs_text);
         database = DatabaseManager.getInstance(this);
         executorService = Executors.newSingleThreadExecutor();
-        handler = new Handler(Looper.getMainLooper());
         addPlaylistButton = findViewById(R.id.add_playlist_button);
         allSongsButton = findViewById(R.id.all_songs_button);
 
         addPlaylistButton.setOnClickListener(v -> showAddPlaylistDialog());
         allSongsButton.setOnClickListener(v -> ShowAllSongs());
+
+
+
 
         if(!checkPermission()){
             requestPermission();
@@ -128,22 +126,22 @@ public class MainActivity extends AppCompatActivity {
             public void onDataLoaded(List<AudioModel> data) {
                 List<AudioModel> firebaseData = data;
 
-                if(firebaseData != null || firebaseData.isEmpty() == false)
-                    songsList.addAll(firebaseData);
-
-                Log.d("Proxy - MainActivity", "Po przeczytaniu do głównej listy: " + songsList.size() + " Firebase: " + firebaseData);
-
-                noMusicTextView = findViewById(R.id.no_songs_text);
-
-                if (songsList.isEmpty()) {
-                    noMusicTextView.setVisibility(View.VISIBLE);
-
-                }
-                else
-                {
+                executorService.execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        for(int i=0; i <firebaseData.size();i++)
+                            insert(firebaseData.get(i));
+                    }
+                });
+                if(!firebaseData.isEmpty()){
                     playlistRecyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
                     playlistRecyclerView.setAdapter(new PlaylistListAdapter(playlistList, getApplicationContext()));
-
+                }else{
+                    ArrayList<PlaylistModel> listToDisplay = new ArrayList<>();
+                    listToDisplay.add(playlistList.get(0));
+                    allSongsButton.setVisibility(View.INVISIBLE);
+                    playlistRecyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
+                    playlistRecyclerView.setAdapter(new PlaylistListAdapter(listToDisplay, getApplicationContext()));
                 }
             }
         });

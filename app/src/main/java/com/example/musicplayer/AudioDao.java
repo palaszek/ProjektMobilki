@@ -28,5 +28,8 @@ public interface AudioDao {
     void updateAudio(AudioModel... audio);
 
     @Delete
-    void deleteUser(AudioModel... audio);
+    void deleteAudio(AudioModel... audio);
+
+    @Query("Delete from audio")
+    void deleteAllAudios();
 }

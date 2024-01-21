@@ -1,5 +1,12 @@
 
-W
-java:S1874"<Remove this use of "getSerializableExtra"; it is deprecated.(Ö×Œ¹ùÿÿÿÿ
-W
-java:S1874"<Remove this use of "getSerializableExtra"; it is deprecated.(À£Æ¬øÿÿÿÿ
+E
+java:S1604G"(Make this anonymous inner class a lambda(Ø”Üˆ8»À·éÒ1
+J
+java:S1604Y"(Make this anonymous inner class a lambda(á†áıÿÿÿÿ8»À·éÒ1
+^
+java:S1874'"<Remove this use of "getSerializableExtra"; it is deprecated.(Ö×Œ¹ùÿÿÿÿ8’Á·éÒ1
+^
+java:S1874("<Remove this use of "getSerializableExtra"; it is deprecated.(À£Æ¬øÿÿÿÿ8’Á·éÒ1
+Y
+java:S1874)"<Remove this use of "getSerializableExtra"; it is deprecated.(Óœüƒ8”Á·éÒ1
+]	java:S125b"<This block of commented-out lines of code should be removed.(³æ˜Ïÿÿÿÿÿ8¡Á·éÒ1

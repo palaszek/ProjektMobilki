@@ -1,5 +1,11 @@
 
-ž
-java:S1186"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(°Ýžé8½Ïß³Ò1
-L
-java:S1068"/Remove this unused "realService" private field.(±Þö”8ÃÏß³Ò1
+E
+java:S1604'"(Make this anonymous inner class a lambda(…Öå—8Öš«èÒ1
+U
+java:S1874"3Remove this use of "NetworkInfo"; it is deprecated.(ü’ŠÛÿÿÿÿÿ8úš«èÒ1
+^
+java:S1874"<Remove this use of "getActiveNetworkInfo"; it is deprecated.(ü’ŠÛÿÿÿÿÿ8ýš«èÒ1
+\
+java:S1874"?Remove this use of "isConnectedOrConnecting"; it is deprecated.(ÜŸýÙ8ÿš«èÒ1
+S
+java:S1128"6Remove this unused import 'android.media.MediaPlayer'.(Ýã¦8…­ÁéÒ1
