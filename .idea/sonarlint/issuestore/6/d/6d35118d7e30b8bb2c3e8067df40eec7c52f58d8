@@ -1,7 +1,7 @@
 
-Q
-java:S1874""/Remove this use of "execute"; it is deprecated.(£Î«‘úÿÿÿÿ8ƒ˜ßæÑ1
-S
-java:S1874'"1Remove this use of "AsyncTask"; it is deprecated.(õ¾­îýÿÿÿÿ8„˜ßæÑ1
-O
-java:S1481)"-Remove this unused "audioDao" local variable.(„±•žþÿÿÿÿ8…˜ßæÑ1
+J
+java:S1874""/Remove this use of "execute"; it is deprecated.(£Î«‘úÿÿÿÿ
+L
+java:S1874'"1Remove this use of "AsyncTask"; it is deprecated.(õ¾­îýÿÿÿÿ
+H
+java:S1481)"-Remove this unused "audioDao" local variable.(„±•žþÿÿÿÿ
