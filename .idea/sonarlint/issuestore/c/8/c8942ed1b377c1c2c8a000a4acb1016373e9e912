@@ -1,0 +1,16 @@
+
+L
+java:S3740"/Provide the parametrized type for this generic.(åÓ™Š8ìæˆÌÒ1
+n
+java:S1192$"LDefine a constant instead of duplicating this literal "ACTION_NEXT" 3 times.(Óãôÿÿÿÿÿ8ìæˆÌÒ1
+t
+java:S1192)"RDefine a constant instead of duplicating this literal "ACTION_PLAY/PAUSE" 3 times.(ıÔÄ½ùÿÿÿÿ8ìæˆÌÒ1
+r
+java:S1192"PDefine a constant instead of duplicating this literal "ACTION_PREVIOUS" 3 times.(ó‹¶¶şÿÿÿÿ8ìæˆÌÒ1
+o
+java:S1192!"RDefine a constant instead of duplicating this literal "MusicNotification" 5 times.(üÌäˆ8ìæˆÌÒ1
+C	java:S131J""Add a default case to this switch.(ë´åİşÿÿÿÿ8¨š“ÌÒ1
+S
+java:S1128"6Remove this unused import 'android.media.MediaPlayer'.(İã¦8ìº“ÌÒ1
+S
+java:S1128"1Remove this unused import 'android.widget.Toast'.(©›ïÍúÿÿÿÿ8ìº“ÌÒ1

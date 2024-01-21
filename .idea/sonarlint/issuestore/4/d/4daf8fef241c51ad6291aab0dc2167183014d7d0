@@ -1,0 +1,10 @@
+
+w
+java:S1192"UUse already-defined constant 'ACTION_PREVIOUS' instead of duplicating its value here.(ÿ§âŞıÿÿÿÿ8õØÉÆÒ1
+r	java:S117$"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(­õüÿÿÿÿ8ÇúĞÆÒ1
+t
+java:S32529"WUse static access with "androidx.core.content.ContextCompat" for "checkSelfPermission".(¨æÜ™8¨ñøÃÒ1
+T
+java:S1135:"2Complete the task associated to this TODO comment.(áÃæùÿÿÿÿ8¬ñøÃÒ1
+P
+java:S1068"3Remove this unused "ACTION_PREVIOUS" private field.(Üû»Ô8®ñøÃÒ1
