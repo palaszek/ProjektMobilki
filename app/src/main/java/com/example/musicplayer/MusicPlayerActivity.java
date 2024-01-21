@@ -24,6 +24,8 @@ import android.util.Log;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -33,14 +35,18 @@ public class MusicPlayerActivity extends AppCompatActivity implements Observer {
 
     TextView titleTv, currentTimeTv, totalTimeTv;
     SeekBar seekBar;
-    ImageView pausePLay, nextBtn, previousBtn, musicIcon;
+    ImageView pausePLay, nextBtn, previousBtn, musicIcon, strategyBtn;
     ArrayList<AudioModel> songsList;
     AudioModel currentSong;
+    PlaybackStrategy strategy;
+    int strategyId; //1 - SequencePlay, 2 - RandomPlay, 3 - LoopPlay
     MediaPlayer mediaPlayer = MyMediaPlayer.getInstance();
 
     private Observable musicNotification;
 
     private NotificationChannelBuilder notificationChannelBuilder;
+    private static final String KEY_CHOSEN_STRATEGY = "chosenStrategy";
+    private SharedPreferences sharedPreferences;
     int x = 0;
 
     @Override
@@ -58,6 +64,7 @@ public class MusicPlayerActivity extends AppCompatActivity implements Observer {
         pausePLay = findViewById(R.id.pause_play);
         nextBtn = findViewById(R.id.next);
         previousBtn = findViewById(R.id.previous);
+        strategyBtn = findViewById(R.id.playing_strategy);
         musicIcon = findViewById(R.id.music_icon_playing);
 
         titleTv.setSelected(true);
@@ -71,6 +78,10 @@ public class MusicPlayerActivity extends AppCompatActivity implements Observer {
         musicNotification.addObserver(this);
         createNotificationChannel();
         notificationChannelBuilder.showNotification(this, songsList.get(MyMediaPlayer.currentIndex), R.drawable.baseline_pause_circle_outline_24);
+
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        strategyId = sharedPreferences.getInt(KEY_CHOSEN_STRATEGY, 1);
+        updateStrategy();
 
         MusicPlayerActivity.this.runOnUiThread(new Runnable() {
             @Override
@@ -91,6 +102,8 @@ public class MusicPlayerActivity extends AppCompatActivity implements Observer {
                         musicIcon.setRotation(0);
                         x=0;
                     }
+                    if (mediaPlayer.getCurrentPosition() >= mediaPlayer.getDuration())
+                        playAfterFinish();
                 }
                 new Handler().postDelayed(this, 100);
             }
@@ -118,6 +131,12 @@ public class MusicPlayerActivity extends AppCompatActivity implements Observer {
 
     }
 
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt(KEY_CHOSEN_STRATEGY, strategyId);
+    }
+
     void setResourcesWithMusic(){
         currentSong = songsList.get(MyMediaPlayer.currentIndex);
         titleTv.setText(currentSong.getTitle());
@@ -126,6 +145,7 @@ public class MusicPlayerActivity extends AppCompatActivity implements Observer {
         pausePLay.setOnClickListener(v -> pausePlay());
         nextBtn.setOnClickListener(v -> playNextSong());
         previousBtn.setOnClickListener(v -> playPreviousSong());
+        strategyBtn.setOnClickListener(v -> changeStrategy());
 
         playMusic();
     }
@@ -146,21 +166,52 @@ public class MusicPlayerActivity extends AppCompatActivity implements Observer {
         }
     }
 
+    private void updateStrategy(){
+        switch (strategyId) {
+            case 1:
+                strategy = new SequencePlay();
+                strategyBtn.setImageResource(R.drawable.baseline_repeat_24);
+                break;
+            case 2:
+                strategy = new RandomPlay();
+                strategyBtn.setImageResource(R.drawable.baseline_shuffle_24);
+                break;
+            case 3:
+                strategy = new LoopPlay();
+                strategyBtn.setImageResource(R.drawable.baseline_repeat_one_24);
+                break;
+            default:
+                strategy = new SequencePlay();
+                strategyBtn.setImageResource(R.drawable.baseline_repeat_24);
+                break;
+        }
+    }
+
+    private void changeStrategy(){
+        if (strategyId == 3)
+            strategyId = 1;
+        else
+            strategyId++;
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt(KEY_CHOSEN_STRATEGY, strategyId);
+        editor.apply();
+        updateStrategy();
+    }
+
     private void playNextSong(){
-        if(MyMediaPlayer.currentIndex == songsList.size()-1)
-            return;
-        MyMediaPlayer.currentIndex +=1;
-        mediaPlayer.reset();
+        strategy.playNextSong(mediaPlayer, (songsList.size())-1);
         setResourcesWithMusic();
         notificationChannelBuilder.showNotification(this, songsList.get(MyMediaPlayer.currentIndex), R.drawable.baseline_pause_circle_outline_24);
 
     }
 
     private void playPreviousSong(){
-        if(MyMediaPlayer.currentIndex == 0)
-            return;
-        MyMediaPlayer.currentIndex -=1;
-        mediaPlayer.reset();
+        strategy.playPreviousSong(mediaPlayer, (songsList.size())-1);
+        setResourcesWithMusic();
+    }
+
+    private void playAfterFinish(){
+        strategy.playAfterFinish(mediaPlayer, (songsList.size())-1);
         setResourcesWithMusic();
         notificationChannelBuilder.showNotification(this, songsList.get(MyMediaPlayer.currentIndex), R.drawable.baseline_pause_circle_outline_24);
     }
