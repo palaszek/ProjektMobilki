@@ -5,8 +5,6 @@ E
 java:S1604="(Make this anonymous inner class a lambda(Ö¹™º8ÊóñÊÒ1
 J
 java:S1604I"(Make this anonymous inner class a lambda(é¹«šûÿÿÿÿ8ËóñÊÒ1
-X
-java:S2696B"6Make the enclosing method "static" or remove this set.(¹Ü÷çşÿÿÿÿ8ôñÊÒ1
 ]	java:S125L"<This block of commented-out lines of code should be removed.(£™–‡ıÿÿÿÿ8±™òÊÒ1
 U
 java:S1068""3Remove this unused "executorService" private field.(’ şüÿÿÿÿ8ôñÊÒ1

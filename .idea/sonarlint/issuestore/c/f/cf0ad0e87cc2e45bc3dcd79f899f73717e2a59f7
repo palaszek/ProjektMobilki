@@ -11,7 +11,3 @@ java:S1874>"/Remove this use of "Handler"; it is deprecated.(ìÿÆ8­úÚÒ1
 java:S1186L"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(ñ®çâùÿÿÿÿ8­úÚÒ1
 
 java:S1186Q"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(‰ÁÕ–8­úÚÒ1
-X
-java:S2696v"6Make the enclosing method "static" or remove this set.(ÁÄĞÆüÿÿÿÿ8ÌúÚÒ1
-S
-java:S2696"6Make the enclosing method "static" or remove this set.(ú’¾Ú8ÌúÚÒ1
