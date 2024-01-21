@@ -3073,6 +3073,8 @@ j
 n
 >app/src/main/java/com/example/musicplayer/PlaylistFactory.java,2\e\2ef13ebf6ff9812c538a528a16a556d5b9b3cda3
 p
-@app/src/main/java/com/example/musicplayer/SongsListActivity.java,8\2\823b1e3dda7d60cb95f827d93120f3bdff803ed3
-p
 @app/src/main/java/com/example/musicplayer/MusicListActivity.java,a\f\afde37aeb6d291ae63d168612f1b53c16a3f0fde
+{
+Kapp/src/main/java/com/example/musicplayer/OnAddToPlaylistClickListener.java,e\c\ec9d90391120369606ce75501c3cfef67099213d
+s
+Capp/src/main/java/com/example/musicplayer/AllMusicListActivity.java,8\7\873a9b15bfcca4507e10225bc5ac3f2b4bd0d6b6

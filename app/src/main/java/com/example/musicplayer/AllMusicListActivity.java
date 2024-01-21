@@ -8,60 +8,49 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class MusicListActivity extends AppCompatActivity implements OnAddToPlaylistClickListener {
+public class AllMusicListActivity extends AppCompatActivity implements OnAddToPlaylistClickListener {
 
-    TextView playlistName;
     RecyclerView songsListRecyclerView;
     ArrayList<AudioModel> songsList;
-    PlaylistModel currPlaylist;
     ArrayList<PlaylistModel> playlistList;
     private ExecutorService executorService;
     DatabaseManager database;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_songs_list);
+        setContentView(R.layout.activity_all_music_list);
 
-
-        playlistName = findViewById(R.id.playlist_title_name);
         songsListRecyclerView = findViewById(R.id.song_list_recycler_view);
+
+        songsList = (ArrayList<AudioModel>) getIntent().getSerializableExtra("SONGSLIST");
+        playlistList = (ArrayList<PlaylistModel>) getIntent().getSerializableExtra("PLAYLISTLIST");
         executorService = Executors.newSingleThreadExecutor();
         database = DatabaseManager.getInstance();
 
-        songsList = (ArrayList<AudioModel>) getIntent().getSerializableExtra("SONGSLIST");
-        currPlaylist = (PlaylistModel) getIntent().getSerializableExtra("PLAYLIST");
-        playlistList = (ArrayList<PlaylistModel>) getIntent().getSerializableExtra("PLAYLISTLIST");
-
-        playlistName.setText(currPlaylist.playlistName);
-
-        Log.d("letsee", "WIELKOSC LISTY: " + songsList.size());
-
+        Log.d("letsee", songsList.toString());
         MusicListAdapter adapter = new MusicListAdapter(songsList, this, playlistList);
         adapter.setOnAddToPlaylistClickListener(this);
 
-        songsListRecyclerView.setLayoutManager(new LinearLayoutManager(MusicListActivity.this));
+        songsListRecyclerView.setLayoutManager(new LinearLayoutManager(AllMusicListActivity.this));
         songsListRecyclerView.setAdapter(adapter);
-
-
     }
 
     @Override
     public void onAddToPlaylistClick(AudioModel audioModel) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(MusicListActivity.this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(AllMusicListActivity.this);
         builder.setTitle("Dodaj do Playlisty");
 
         // Pobieramy listę nazw playlist
         List<String> playlistNames = new ArrayList<>();
         for (PlaylistModel playlist : playlistList) {
-            playlistNames.add(playlist.playlistName);
+            if(playlist.playlistId != 1)
+                playlistNames.add(playlist.playlistName);
         }
 
         // Konwertujemy listę na tablicę dla ArrayAdapter
@@ -91,6 +80,7 @@ public class MusicListActivity extends AppCompatActivity implements OnAddToPlayl
                         PlaylistSongCrossRef relaction = new PlaylistSongCrossRef();
                         relaction.playlistId = playlist.playlistId;
                         relaction.songId = audioModel.songId;
+                        Log.d("letsee", "PRÓBA DODANIA PIOSENKI DO PLAYLISTY: " + relaction.toString());
                         database.playlistDao().addSongToPlaylist(relaction);
                     }
                 });

@@ -70,6 +70,7 @@ public class PlaylistListAdapter extends RecyclerView.Adapter<PlaylistListAdapte
 
                         intent.putExtra("SONGSLIST", songToView);
                         intent.putExtra("PLAYLIST", playlistList.get(holder.getAdapterPosition()));
+                        intent.putExtra("PLAYLISTLIST", playlistList);
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         try{
                             context.startActivity(intent);

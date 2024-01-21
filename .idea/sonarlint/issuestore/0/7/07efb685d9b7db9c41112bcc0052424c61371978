@@ -1,12 +1,13 @@
 
-†
-java:S1319$"iThe type of "songsList" should be an interface such as "List" rather than the implementation "ArrayList".(Ğù‡ø8ÊóñÊÒ1
+‹
+java:S1319&"iThe type of "songsList" should be an interface such as "List" rather than the implementation "ArrayList".(Ÿ´şÓıÿÿÿÿ8©œßÒ1
+
+java:S1319&"lThe type of "playlistList" should be an interface such as "List" rather than the implementation "ArrayList".(Ÿ´şÓıÿÿÿÿ8©œßÒ1
 E
-java:S1604="(Make this anonymous inner class a lambda(Ö¹™º8ÊóñÊÒ1
+java:S1604C"(Make this anonymous inner class a lambda(Ö¹™º8©œßÒ1
 J
-java:S1604I"(Make this anonymous inner class a lambda(é¹«šûÿÿÿÿ8ËóñÊÒ1
+java:S1604O"(Make this anonymous inner class a lambda(é¹«šûÿÿÿÿ8©œßÒ1
 X
-java:S2696B"6Make the enclosing method "static" or remove this set.(¹Ü÷çşÿÿÿÿ8ôñÊÒ1
-]	java:S125L"<This block of commented-out lines of code should be removed.(£™–‡ıÿÿÿÿ8±™òÊÒ1
+java:S2696H"6Make the enclosing method "static" or remove this set.(¹Ü÷çşÿÿÿÿ8Ô©œßÒ1
 U
-java:S1068""3Remove this unused "executorService" private field.(’ şüÿÿÿÿ8ôñÊÒ1
+java:S1068""3Remove this unused "executorService" private field.(’ şüÿÿÿÿ8æ©œßÒ1

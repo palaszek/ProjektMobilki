@@ -1,9 +1,11 @@
 package com.example.musicplayer;
 
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.media.MediaPlayer;
+import android.media.MediaTimestamp;
 import android.os.Bundle;
 import android.os.Handler;
 import android.widget.ImageView;
@@ -96,6 +98,7 @@ public class MusicPlayerActivity extends AppCompatActivity {
 
         playMusic();
     }
+
 
 
     private void playMusic(){

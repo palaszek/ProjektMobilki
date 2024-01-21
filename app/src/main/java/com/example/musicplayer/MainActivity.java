@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -19,6 +20,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.Manifest;
 import android.widget.Toast;
@@ -41,7 +43,6 @@ import java.util.concurrent.Executors;
 
 public class MainActivity extends AppCompatActivity {
 
-    RecyclerView audioRecyclerView;
     RecyclerView playlistRecyclerView;
     TextView noMusicTextView;
     ArrayList<AudioModel> songsList = new ArrayList<>();
@@ -53,21 +54,23 @@ public class MainActivity extends AppCompatActivity {
     private ProgressDialog progressDialog;
     PlaylistModel playlistModel;
     Button addPlaylistButton;
+    ImageButton allSongsButton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         //getApplicationContext().deleteDatabase("MusicPlayerDataBase");
 
-        audioRecyclerView = findViewById(R.id.recycler_view);
         playlistRecyclerView = findViewById(R.id.playlist_recycler_view);
         noMusicTextView = findViewById(R.id.no_songs_text);
         database = DatabaseManager.getInstance(this);
         executorService = Executors.newSingleThreadExecutor();
         handler = new Handler(Looper.getMainLooper());
         addPlaylistButton = findViewById(R.id.add_playlist_button);
+        allSongsButton = findViewById(R.id.all_songs_button);
 
         addPlaylistButton.setOnClickListener(v -> showAddPlaylistDialog());
+        allSongsButton.setOnClickListener(v -> ShowAllSongs());
 
         if(!checkPermission()){
             requestPermission();
@@ -102,6 +105,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onDataLoaded(List<AudioModel> data) {
                 playlistModel = PlaylistFactory.createPlaylist("Local");
+                playlistModel= PlaylistFactory.createPlaylist("Favourite");
                 playlistList = new ArrayList<>(database.playlistDao().getAllPlayLists());
                 latch.countDown();
             }
@@ -118,19 +122,27 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onDataLoaded(List<AudioModel> data) {
                 tmpFirebaseListAudio = data;
+                        for(int i = 0; i < tmpFirebaseListAudio.size(); i++)
+                        {
+                            insert(tmpFirebaseListAudio.get(i));
+                        }
 
-                songsList.addAll(tmpFirebaseListAudio);
+                //songsList.addAll(tmpFirebaseListAudio);
                 Log.d("letsee", "Po zczytaniu do głównej listy: " + songsList.size() + " Firebase: " + tmpFirebaseListAudio.size());
 
-                noMusicTextView = findViewById(R.id.no_songs_text);
-                if (songsList.isEmpty()) {
-                    noMusicTextView.setVisibility(View.VISIBLE);
-                } else {
-                    playlistRecyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
-                    playlistRecyclerView.setAdapter(new PlaylistListAdapter(playlistList, getApplicationContext()));
-                    audioRecyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
-                    audioRecyclerView.setAdapter(new MusicListAdapter(songsList, getApplicationContext()));
-                }
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+
+                        noMusicTextView = findViewById(R.id.no_songs_text);
+                        if (songsList.isEmpty()) {
+                            noMusicTextView.setVisibility(View.VISIBLE);
+                        } else {
+                            playlistRecyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
+                            playlistRecyclerView.setAdapter(new PlaylistListAdapter(playlistList, getApplicationContext()));
+                        }
+                    }
+                });
             }
         });
 
@@ -152,8 +164,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        if(audioRecyclerView !=null){
-            audioRecyclerView.setAdapter(new MusicListAdapter(songsList, getApplicationContext()));
+        if(playlistRecyclerView !=null){
+            playlistRecyclerView.setAdapter(new PlaylistListAdapter(playlistList, getApplicationContext()));
         }
     }
 
@@ -175,16 +187,6 @@ public class MainActivity extends AppCompatActivity {
                 {
                     database.audioDao().insert(audioToInsert);
                 }
-                handler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        if(!isInserted[0]) {
-                            Toast.makeText(MainActivity.this, "Audio inserted", Toast.LENGTH_SHORT).show();
-                        } else {
-                            Toast.makeText(MainActivity.this, "Nie udalo sie ;(", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
             }
         });
     }
@@ -277,6 +279,15 @@ public class MainActivity extends AppCompatActivity {
         });
 
         playlistRecyclerView.getAdapter().notifyDataSetChanged();
+    }
+
+
+    private void ShowAllSongs(){
+        Intent intent = new Intent(this, AllMusicListActivity.class);
+        intent.putExtra("SONGSLIST", songsList);
+        intent.putExtra("PLAYLISTLIST", playlistList);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        getApplicationContext().startActivity(intent);
     }
 
 

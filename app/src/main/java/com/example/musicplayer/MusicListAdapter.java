@@ -32,12 +32,18 @@ public class MusicListAdapter extends RecyclerView.Adapter<MusicListAdapter.View
     Context context;
     DatabaseManager database;
     private ExecutorService executorService;
+    ArrayList<PlaylistModel> playlistList;
+    private OnAddToPlaylistClickListener onAddToPlaylistClickListener;
 
-    public MusicListAdapter(ArrayList<AudioModel> songsList, Context context) {
+    public MusicListAdapter(ArrayList<AudioModel> songsList, Context context, ArrayList<PlaylistModel> playlistList) {
         this.songsList = songsList;
         this.context = context;
+        this.playlistList = playlistList;
         database = DatabaseManager.getInstance();
         executorService = Executors.newSingleThreadExecutor();
+    }
+    public void setOnAddToPlaylistClickListener(OnAddToPlaylistClickListener listener) {
+        this.onAddToPlaylistClickListener = listener;
     }
 
     @NonNull
@@ -73,7 +79,8 @@ public class MusicListAdapter extends RecyclerView.Adapter<MusicListAdapter.View
         holder.addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //showAddToPlaylistDialog(songsList.get(position));
+                if(onAddToPlaylistClickListener != null)
+                    onAddToPlaylistClickListener.onAddToPlaylistClick(songsList.get(holder.getAdapterPosition()));
             }
         });
     }

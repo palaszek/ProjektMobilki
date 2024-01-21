@@ -48,6 +48,28 @@ public class PlaylistFactory {
                 break;
 
             case "favourite":
+                executorService.execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        try{
+                            boolean inserted = false;
+                            playlistModel[0] = new PlaylistModel("Ulubione");
+                            for(int i = 0; i < database.playlistDao().getPlaylistsWithSongs().size(); i++) {
+                                if (database.playlistDao().getPlaylist(i).playlistName.equals("Ulubione")) {
+                                    inserted = true;
+                                }
+                            }
+                            if(!inserted)
+                                database.playlistDao().insertPlaylist(playlistModel[0]);
+
+                            playlistModel[0].playlistId = database.playlistDao().getPlaylist("Ulubione").playlistId;
+                        } catch (Exception e)
+                        {
+                            Log.d("letsee", "Błąd z Fabryki: " + e);
+                        }
+                        latch.countDown();
+                    }
+                });
                 break;
             default:
                 playlistModel[0] = new PlaylistModel(type);
