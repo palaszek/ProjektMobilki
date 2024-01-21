@@ -9,6 +9,8 @@ import android.os.Handler;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -21,9 +23,11 @@ public class MusicPlayerActivity extends AppCompatActivity {
     ImageView pausePLay, nextBtn, previousBtn, musicIcon, strategyBtn;
     ArrayList<AudioModel> songsList;
     AudioModel currentSong;
-    PlaybackStrategy strategy = new SequencePlay();
-    int strategyId = 1; //1 - SequencePlay, 2 - RandomPlay, 3 - LoopPlay
+    PlaybackStrategy strategy;
+    int strategyId; //1 - SequencePlay, 2 - RandomPlay, 3 - LoopPlay
     MediaPlayer mediaPlayer = MyMediaPlayer.getInstance();
+    private static final String KEY_CHOSEN_STRATEGY = "chosenStrategy";
+    private SharedPreferences sharedPreferences;
     int x = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +49,10 @@ public class MusicPlayerActivity extends AppCompatActivity {
         songsList = (ArrayList<AudioModel>) getIntent().getSerializableExtra("LIST");
 
         setResourcesWithMusic();
+
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        strategyId = sharedPreferences.getInt(KEY_CHOSEN_STRATEGY, 1);
+        updateStrategy();
 
         MusicPlayerActivity.this.runOnUiThread(new Runnable() {
             @Override
@@ -90,6 +98,12 @@ public class MusicPlayerActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt(KEY_CHOSEN_STRATEGY, strategyId);
+    }
+
     void setResourcesWithMusic(){
         currentSong = songsList.get(MyMediaPlayer.currentIndex);
         titleTv.setText(currentSong.getTitle());
@@ -118,12 +132,7 @@ public class MusicPlayerActivity extends AppCompatActivity {
         }
     }
 
-    private void changeStrategy(){
-        if (strategyId == 3)
-            strategyId = 1;
-        else
-            strategyId++;
-
+    private void updateStrategy(){
         switch (strategyId) {
             case 1:
                 strategy = new SequencePlay();
@@ -142,6 +151,17 @@ public class MusicPlayerActivity extends AppCompatActivity {
                 strategyBtn.setImageResource(R.drawable.baseline_repeat_24);
                 break;
         }
+    }
+
+    private void changeStrategy(){
+        if (strategyId == 3)
+            strategyId = 1;
+        else
+            strategyId++;
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt(KEY_CHOSEN_STRATEGY, strategyId);
+        editor.apply();
+        updateStrategy();
     }
 
     private void playNextSong(){
