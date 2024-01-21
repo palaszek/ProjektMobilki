@@ -22,7 +22,6 @@ public class NotificationChannelBuilder {
     public static final String CHANNEL_ID = "channel1";
     public static final int CHANNEL_ID_INT = 0;
     public static final String CHANNEL_NAME = "MUSIC_NOTIFICATION_CHANNEL";
-    private static final String ACTION_PREVIOUS = "ACTION_PREVIOUS";
 
 
     public void showNotification(Context context, AudioModel song, int res) {

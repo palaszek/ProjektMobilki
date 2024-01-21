@@ -95,7 +95,9 @@ public class MainActivity extends AppCompatActivity {
         noMusicTextView = findViewById(R.id.no_songs_text);
         if(songsList.isEmpty()){
             noMusicTextView.setVisibility(View.VISIBLE);
-        }else{
+        }
+        else
+        {
             //recyclerView
             recyclerView.setLayoutManager(new LinearLayoutManager(this));
             recyclerView.setAdapter(new MusicListAdapter(songsList, getApplicationContext()));
