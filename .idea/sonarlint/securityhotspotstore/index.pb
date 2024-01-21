@@ -3092,3 +3092,13 @@ i
 9app/src/main/java/com/example/musicplayer/Observable.java,1\d\1d0b40b80ce26d442e9b6ea5570bfbf383315d25
 g
 7app/src/main/java/com/example/musicplayer/Observer.java,e\f\efe2e7720d768ed9ae291a69be60c837c7c1089f
+g
+7app/src/main/java/com/example/musicplayer/LoopPlay.java,7\b\7bace87f5e64f0c0d452a0f333bcf0fa2034ad5d
+i
+9app/src/main/java/com/example/musicplayer/RandomPlay.java,0\f\0f458fb73a2f2c618842605fbc02c2eaf56372e4
+r
+Bapp/src/main/java/com/example/musicplayer/RealFirebaseService.java,a\c\ac1718a9bbb1330d6ebe4ea54b3660cad9c3f744
+k
+;app/src/main/java/com/example/musicplayer/SequencePlay.java,b\7\b7bd51d1b1a70549f70bae406f30750fd66693de
+o
+?app/src/main/java/com/example/musicplayer/PlaybackStrategy.java,5\5\5593b460121a8c3bd4a8b118c04e2a24fab013a2
