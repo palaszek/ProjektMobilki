@@ -9,12 +9,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.app.NotificationManager;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.os.Build;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.InputType;
@@ -52,11 +54,12 @@ public class MainActivity extends AppCompatActivity {
     public DatabaseManager database;
     private ExecutorService executorService;
     private Handler handler;
-    List<AudioModel> tmpFirebaseListAudio = new ArrayList<>();
     private ProgressDialog progressDialog;
     PlaylistModel playlistModel;
     Button addPlaylistButton;
     ImageButton allSongsButton;
+
+    private IFirebaseService firebaseService;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -101,8 +104,6 @@ public class MainActivity extends AppCompatActivity {
 
         CountDownLatch latch = new CountDownLatch(1);
 
-        initializeProgresBar();
-
         fetchLocalData(new DataCallback() {
             @Override
             public void onDataLoaded(List<AudioModel> data) {
@@ -120,31 +121,30 @@ public class MainActivity extends AppCompatActivity {
             Log.d("letsee", String.valueOf(e));
         }
 
-        fetchFirebaseData(new DataCallback() {
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        firebaseService = new FirebaseProxyService(this, connectivityManager);
+        firebaseService.fetchData(new DataCallback() {
             @Override
             public void onDataLoaded(List<AudioModel> data) {
-                tmpFirebaseListAudio = data;
-                        for(int i = 0; i < tmpFirebaseListAudio.size(); i++)
-                        {
-                            insert(tmpFirebaseListAudio.get(i));
-                        }
+                List<AudioModel> firebaseData = data;
 
-                //songsList.addAll(tmpFirebaseListAudio);
-                Log.d("letsee", "Po zczytaniu do głównej listy: " + songsList.size() + " Firebase: " + tmpFirebaseListAudio.size());
+                if(firebaseData != null || firebaseData.isEmpty() == false)
+                    songsList.addAll(firebaseData);
 
-                handler.post(new Runnable() {
-                    @Override
-                    public void run() {
+                Log.d("Proxy - MainActivity", "Po przeczytaniu do głównej listy: " + songsList.size() + " Firebase: " + firebaseData);
 
-                        noMusicTextView = findViewById(R.id.no_songs_text);
-                        if (songsList.isEmpty()) {
-                            noMusicTextView.setVisibility(View.VISIBLE);
-                        } else {
-                            playlistRecyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
-                            playlistRecyclerView.setAdapter(new PlaylistListAdapter(playlistList, getApplicationContext()));
-                        }
-                    }
-                });
+                noMusicTextView = findViewById(R.id.no_songs_text);
+
+                if (songsList.isEmpty()) {
+                    noMusicTextView.setVisibility(View.VISIBLE);
+
+                }
+                else
+                {
+                    playlistRecyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
+                    playlistRecyclerView.setAdapter(new PlaylistListAdapter(playlistList, getApplicationContext()));
+
+                }
             }
         });
 
@@ -201,25 +201,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-    private void fetchFirebaseData(DataCallback callback) {
-        FirebaseFirestore.getInstance().collection("song").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if (task.isSuccessful()) {
-                    QuerySnapshot document = task.getResult();
-                    if (!document.isEmpty()) {
-                        List<AudioModel> tmpFirebaseListAudio = document.toObjects(AudioModel.class);
-                        Log.d("letsee", "DocumentSnapshot data tmpfireBase: " + tmpFirebaseListAudio.size());
-                        callback.onDataLoaded(tmpFirebaseListAudio);
-                    } else {
-                        Log.d("letsee", "No such document");
-                    }
-                } else {
-                    Log.d("letsee", "get failed with ", task.getException());
-                }
-                progressDialog.dismiss();
-            }
-        });
-    }
+
     private void fetchLocalData(DataCallback callback) {
         executorService.execute(new Runnable() {
             @Override
@@ -235,16 +217,6 @@ public class MainActivity extends AppCompatActivity {
 
         });
     }
-
-    private void initializeProgresBar(){
-        progressDialog = new ProgressDialog(this);
-        progressDialog.setMessage("Downloading songs from Firebase...");
-        progressDialog.setIndeterminate(false);
-        progressDialog.setCancelable(false);
-        progressDialog.show();
-    }
-
-
 
     private void showAddPlaylistDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
